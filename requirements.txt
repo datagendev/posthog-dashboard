@@ -1,5 +1,6 @@
-streamlit==1.32.0
-pandas==2.2.0
-plotly==5.19.0
-python-dotenv==1.0.1
-datagen-python-sdk>=0.1.1
+streamlit==1.51.0
+pandas==2.3.3
+plotly==6.5.0
+python-dotenv==1.2.1
+requests==2.32.5
+datagen-python-sdk==0.1.1
