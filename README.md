@@ -169,6 +169,85 @@ To modify the dashboard:
 3. **Test locally**: `streamlit run app.py`
 4. **Streamlit auto-reloads** when you save changes
 
+## Render Deployment (Recommended - Free Tier Available)
+
+### Prerequisites
+- Render account (sign up at https://render.com)
+- DataGen API key
+- GitHub repository
+
+### Deployment Steps
+
+1. **Push this repository to GitHub** (already done!)
+
+2. **Create a new Web Service on Render**:
+   - Go to https://dashboard.render.com/
+   - Click "New +" → "Web Service"
+   - Connect your GitHub account and select `datagendev/posthog-dashboard`
+
+3. **Configure the service**:
+   - **Name**: `posthog-dashboard`
+   - **Runtime**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `streamlit run app.py --server.port=$PORT --server.address=0.0.0.0 --server.headless=true`
+   - **Plan**: Select `Free` tier
+
+4. **Add environment variable**:
+   - Click "Advanced" or go to "Environment" tab
+   - Add variable:
+     - **Key**: `DATAGEN_API_KEY`
+     - **Value**: Your actual DataGen API key
+
+5. **Deploy**:
+   - Click "Create Web Service"
+   - Render will automatically build and deploy
+   - First deployment takes 2-3 minutes
+
+6. **Access your dashboard**:
+   - Once deployed, Render provides a URL like `https://posthog-dashboard.onrender.com`
+   - Click the URL in the dashboard to access your app
+
+### Render Configuration Files
+
+- **render.yaml**: Render Blueprint configuration (optional, for auto-setup)
+- **requirements.txt**: Python dependencies with exact versions
+- **runtime.txt**: Python version specification (3.12.8)
+
+### Alternative: Deploy with render.yaml (One-Click)
+
+If you use the `render.yaml` file:
+1. Go to https://dashboard.render.com/
+2. Click "New +" → "Blueprint"
+3. Connect to your repository
+4. Render will auto-detect `render.yaml` and configure everything
+5. Just add the `DATAGEN_API_KEY` environment variable
+
+### Post-Deployment
+
+- **Monitor logs**: View real-time logs in Render dashboard
+- **Auto-deploy**: Pushes to main branch trigger automatic redeployment
+- **Custom domain**: Add your own domain in Settings
+- **Scaling**: Upgrade to paid plan for better performance
+
+### Troubleshooting Render Deployment
+
+**Build fails**:
+- Check Render logs for specific error
+- Verify `requirements.txt` has exact versions
+- Ensure Python 3.12.8 is specified
+
+**App crashes or won't start**:
+- Check start command is correct
+- Verify `DATAGEN_API_KEY` is set in environment variables
+- View logs for specific error messages
+
+**"Application failed to respond"**:
+- Render's free tier may spin down after 15 minutes of inactivity
+- First request after inactivity takes 30-60 seconds to wake up
+- Upgrade to paid tier for always-on service
+
+---
+
 ## Railway Deployment
 
 ### Prerequisites
